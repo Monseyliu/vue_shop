@@ -6,4 +6,17 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
+    user-select: none;
+}
+/* 全局面包屑下margin */
+.el-breadcrumb{
+    margin-bottom: 15px;
+}
+/* 重置卡片视图阴影 */
+.el-card {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+}
+/* 表格上margin */
+.el-table {
+    margin: 15px 0;
 }

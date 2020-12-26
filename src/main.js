@@ -4,6 +4,12 @@ import router from './router'
 import './plugins/element.js'
 import './assets/css/global.css'
 import axios from 'axios'
+
+// 在挂载之前设置拦截器，每次请求都携带token
+axios.interceptors.request.use(config => {
+  config.headers.Authorization = window.sessionStorage.getItem('token')
+  return config
+})
 // 挂载到VUE原型上
 Vue.prototype.$http = axios
 // 配置请求的根路径
