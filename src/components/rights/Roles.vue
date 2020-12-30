@@ -115,7 +115,7 @@
     </el-dialog>
     <!-- 添加角色对话框 -->
     <el-dialog
-      :title="DialogTitle"
+      title="添加角色"
       :visible.sync="addRoleDialogVisible"
       width="50%"
       @close="addRoleDialogClosed"
@@ -137,6 +137,33 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="addRoleDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="subjoinRole" >确 定</el-button>
+      </span>
+    </el-dialog>
+    
+    <!-- 修改角色对话框 -->
+    <el-dialog
+      title="修改角色"
+      :visible.sync="editRoleDialogVisible"
+      width="50%"
+      @close="editRoleDialogClosed"
+    >
+      <!-- 提交表单区域 -->
+      <el-form
+        ref="editRoleInfoRef"
+        :model="addRoleInfo"
+        label-width="80px"
+        :rules="addRolesRules"
+      >
+        <el-form-item label="角色名称" prop="roleName">
+          <el-input v-model="addRoleInfo.roleName" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="角色描述" prop="roleDesc">
+          <el-input v-model="addRoleInfo.roleDesc" clearable></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editRoleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editDialogById" >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -171,7 +198,7 @@ export default {
           { required: false, message: "请输入角色描述", trigger: "blur" },
         ],
       },
-      DialogTitle: "", //编辑和分配角色对话框公用title
+      editRoleDialogVisible: false, //编辑和分配角色对话框公用title
       editID: '', //需要编辑的ID
     };
   },
@@ -278,15 +305,19 @@ export default {
       this.$refs.addRoleInfoRef.resetFields();
       this.editID = ''
     },
-    // async editDialogById(){
-    //   // 编辑成功触发
-    //   const {data: res} = await this.$http.put(`roles/`+ this.editID)
-    //   if(res.meta.status !==200) {
-    //     return this.$message.error("编辑失败")
-    //   }
-    //   this.$message.success("编辑成功")
-    //   this.getRolesData()
-    // },
+    editRoleDialogClosed(){
+      this.$refs.editRoleInfoRef.resetFields();
+    },
+    async editDialogById(){
+      // 编辑成功触发
+      const {data: res} = await this.$http.put(`roles/`+ this.editID, this.addRoleInfo)
+      if(res.meta.status !==200) {
+        return this.$message.error("编辑失败")
+      }
+      this.$message.success("编辑成功")
+      this.getRolesData()
+      this.editRoleDialogVisible = false
+    },
     async showEditDialog(id) {
       // 控制编辑对话框显示
       // 获取数据赋值
@@ -296,8 +327,7 @@ export default {
       }
       this.editID = id
       this.addRoleInfo = res.data;
-      this.DialogTitle = "编辑角色";
-      this.addRoleDialogVisible = true;
+      this.editRoleDialogVisible = true;
     },
     async deleteRoleById(id) {
       const deleteResult = await this.$confirm(

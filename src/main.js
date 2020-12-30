@@ -4,6 +4,7 @@ import router from './router'
 import './plugins/element.js'
 import './assets/css/global.css'
 import axios from 'axios'
+import TreeTable from 'vue-table-with-tree-grid'
 
 // 在挂载之前设置拦截器，每次请求都携带token
 axios.interceptors.request.use(config => {
@@ -15,6 +16,8 @@ Vue.prototype.$http = axios
 // 配置请求的根路径
 axios.defaults.baseURL = 'http://timemeetyou.com:8889/api/private/v1/'
 
+// 注册TreeTable
+Vue.component('tree-table', TreeTable)
 
 Vue.config.productionTip = false
 
