@@ -21,3 +21,14 @@ body,
 .el-table {
     margin: 15px 0;
 }
+/* 步骤条样式 */
+.el-steps{
+    margin: 15px 0;
+}
+.el-step__title {
+    font-size: 13px;
+}
+/* 富文本编译器全局样式 */
+.ql-editor {
+    min-height: 300px;
+}
