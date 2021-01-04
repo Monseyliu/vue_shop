@@ -47,10 +47,10 @@
             <el-form-item label="商品价格" prop="goods_price">
               <el-input v-model="addForm.goods_price"></el-input>
             </el-form-item>
-            <el-form-item label="商品价格" prop="goods_weight">
+            <el-form-item label="商品重量" prop="goods_weight">
               <el-input v-model="addForm.goods_weight" type="number"></el-input>
             </el-form-item>
-            <el-form-item label="商品价格" prop="goods_number">
+            <el-form-item label="商品库存" prop="goods_number">
               <el-input v-model="addForm.goods_number" type="number"></el-input>
             </el-form-item>
             <!-- 级联选择商品区域 -->
@@ -108,13 +108,15 @@
             </el-upload>
           </el-tab-pane>
           <el-tab-pane label="商品内容" name="4">
-              <!-- 富文本编译器组件 -->
+            <!-- 富文本编译器组件 -->
             <quill-editor
               ref="myQuillEditor"
               v-model="addForm.goods_introduce"
             />
             <!-- 添加商品的按钮 -->
-            <el-button type="primary" class="addBtn" @click="addGoods">添加商品</el-button>
+            <el-button type="primary" class="addBtn" @click="addGoods"
+              >添加商品</el-button
+            >
           </el-tab-pane>
         </el-tabs>
       </el-form>
@@ -129,7 +131,7 @@
 
 <script>
 // 导入 loadsh 官方推荐 _ 接收
-import _ from 'lodash'
+import _ from "lodash";
 
 export default {
   data() {
@@ -147,7 +149,7 @@ export default {
         // 上传图片临时路径数组
         pics: [],
         // 商品的详情描述
-        goods_introduce: '',
+        goods_introduce: "",
         // 属性数组
         attrs: [],
       },
@@ -272,43 +274,42 @@ export default {
       const picInfo = { pic: response.data.tmp_path };
       this.addForm.pics.push(picInfo);
     },
-    addGoods(){
-        // 点击按钮添加商品, 获取表单验证结果，并发起添加请求
-        this.$refs.addFormRef.validate(async valid => {
-            if(!valid) {
-                return this.$message.error("请填写必要的表单项目")
-            }
-            // 执行添加前进行数据处理，数组-字符串转换，字符串-数组转换
-            // 深拷贝 addForm 到 cloneForm 解决和级联选择框数据类型冲突问题
-            const cloneForm =  _.cloneDeep(this.addForm)
-            cloneForm.goods_cat = cloneForm.goods_cat.join(',')
-            // 处理静态属性和动态参数
-            this.manyTableData.forEach(item => {
-                const newInfo = {
-                    attr_id: item.attr_id,
-                    attr_value: item.attr_vals.join(',')
-                }
-                this.addForm.attrs.push(newInfo)
-            })
-            this.onlyTableData.forEach(item => {
-                const newInfo = {
-                    attr_id: item.attr_id,
-                    attr_value: item.attr_vals
-                }
-                this.addForm.attrs.push(newInfo)
-            })
-            cloneForm.attrs = this.addForm.attrs
-            // 添加商品。商品名称必须是唯一的
-            const {data: res} = await this.$http.post(`goods`, cloneForm)
-            if(res.meta.status !== 201) {
-                return this.$message.error("添加商品失败")
-            }
-            this.$message.success("添加商品成功")
-            // 通过编程时导航跳转到商品列表页面
-            this.$router.push('/goods')
-        })
-
-    }
+    addGoods() {
+      // 点击按钮添加商品, 获取表单验证结果，并发起添加请求
+      this.$refs.addFormRef.validate(async (valid) => {
+        if (!valid) {
+          return this.$message.error("请填写必要的表单项目");
+        }
+        // 执行添加前进行数据处理，数组-字符串转换，字符串-数组转换
+        // 深拷贝 addForm 到 cloneForm 解决和级联选择框数据类型冲突问题
+        const cloneForm = _.cloneDeep(this.addForm);
+        cloneForm.goods_cat = cloneForm.goods_cat.join(",");
+        // 处理静态属性和动态参数
+        this.manyTableData.forEach((item) => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals.join(","),
+          };
+          this.addForm.attrs.push(newInfo);
+        });
+        this.onlyTableData.forEach((item) => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals,
+          };
+          this.addForm.attrs.push(newInfo);
+        });
+        cloneForm.attrs = this.addForm.attrs;
+        // 添加商品。商品名称必须是唯一的
+        const { data: res } = await this.$http.post(`goods`, cloneForm);
+        if (res.meta.status !== 201) {
+          return this.$message.error("添加商品失败");
+        }
+        this.$message.success("添加商品成功");
+        // 通过编程时导航跳转到商品列表页面
+        this.$router.push("/goods");
+      });
+    },
   },
   computed: {
     cateId() {
@@ -330,6 +331,6 @@ export default {
   width: 100%;
 }
 button.el-button.addBtn.el-button--primary {
-    margin-top: 15px;
-} 
+  margin-top: 15px;
+}
 </style>

@@ -10,6 +10,7 @@ import Cate from '../components/goods/Cate.vue'
 import Params from '../components/goods/Params.vue'
 import Goods from '../components/goods/Goods.vue'
 import Add from '../components/goods/Add.vue'
+import Order from '../components/order/Order.vue'
 
 Vue.use(VueRouter)
 
@@ -17,16 +18,17 @@ const routes = [
   { path: '/', redirect: '/login' },
   { path: '/login', component: Login },
   {
-    path: '/home', component: Home,redirect: '/welcome',
+    path: '/home', component: Home, redirect: '/welcome',
     children: [
       { path: '/welcome', component: Welcome },
-      { path: '/users', component: Users},
-      { path: '/roles', component: Roles},
-      { path: '/rights', component: Rights},
-      { path: '/categories', component: Cate},
-      { path: '/params', component: Params},
-      { path: '/goods', component: Goods},
-      {path: '/goods/add', component: Add}
+      { path: '/users', component: Users },
+      { path: '/roles', component: Roles },
+      { path: '/rights', component: Rights },
+      { path: '/categories', component: Cate },
+      { path: '/params', component: Params },
+      { path: '/goods', component: Goods },
+      { path: '/goods/add', component: Add },
+      { path: '/orders', component: Order}
     ]
   }
 ]
