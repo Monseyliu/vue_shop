@@ -155,7 +155,7 @@ export default {
         ],
       },
       // 城市地址信息
-      cityData: [],
+      cityData,
       // 城市地址级联选择框配置项
       addressProps: {
         expandTrigger: "hover",
