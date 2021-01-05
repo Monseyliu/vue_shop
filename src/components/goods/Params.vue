@@ -342,12 +342,12 @@ export default {
         this.addDialogVisible = false;
       });
     },
-    async showEditDialog(attr_id) {
+    async showEditDialog(attrId) {
       // 点击按钮展示修改对话框, 查询参数
       const {
         data: res,
       } = await this.$http.get(
-        `categories/${this.cateId}/attributes/${attr_id}`,
+        `categories/${this.cateId}/attributes/${attrId}`,
         { params: { attr_sel: this.activeName } }
       );
       if (res.meta.status !== 200) {
